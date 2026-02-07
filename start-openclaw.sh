@@ -234,10 +234,34 @@ if (process.env.CF_AI_GATEWAY_MODEL) {
         config.agents.defaults = config.agents.defaults || {};
         config.agents.defaults.model = { primary: providerName + '/' + modelId };
         console.log('AI Gateway model override: provider=' + providerName + ' model=' + modelId + ' via ' + baseUrl);
+
     } else {
         console.warn('CF_AI_GATEWAY_MODEL set but missing required config (account ID, gateway ID, or API key)');
     }
 }
+
+// Gemini (Google AI Studio) configuration via OpenAI compatibility
+if (process.env.GEMINI_API_KEY) {
+    const providerName = 'gemini';
+    const modelId = 'gemini-1.5-flash';
+
+    config.models = config.models || {};
+    config.models.providers = config.models.providers || {};
+    config.models.providers[providerName] = {
+        baseUrl: "https://generativelanguage.googleapis.com/v1beta/openai/",
+        apiKey: process.env.GEMINI_API_KEY,
+        api: "openai-completions",
+        models: [
+            { id: modelId, name: modelId, contextWindow: 1048576, maxTokens: 8192 }
+        ],
+    };
+
+    config.agents = config.agents || {};
+    config.agents.defaults = config.agents.defaults || {};
+    config.agents.defaults.model = { primary: providerName + '/' + modelId };
+    console.log('Configured Gemini provider with model: ' + modelId);
+}
+
 
 // Telegram configuration
 // Overwrite entire channel object to drop stale keys from old R2 backups

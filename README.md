@@ -65,10 +65,13 @@ npm install
 # Set your API key (direct Anthropic access)
 npx wrangler secret put ANTHROPIC_API_KEY
 
-# Or use Cloudflare AI Gateway instead (see "Optional: Cloudflare AI Gateway" below)
 # npx wrangler secret put CLOUDFLARE_AI_GATEWAY_API_KEY
 # npx wrangler secret put CF_AI_GATEWAY_ACCOUNT_ID
 # npx wrangler secret put CF_AI_GATEWAY_GATEWAY_ID
+
+# Or use Gemini (Google AI Studio - Free Tier available)
+# npx wrangler secret put GEMINI_API_KEY
+
 
 # Generate and set a gateway token (required for remote access)
 # Save this token - you'll need it to access the Control UI
